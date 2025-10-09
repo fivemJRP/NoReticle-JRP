@@ -35,20 +35,17 @@ end)
 CreateThread(function()
     while true do
         if not hasReticleBypass then
-            local sleep = 0
-            
             -- Hide HUD components for reticle (more efficient method)
             HideHudComponentThisFrame(14) -- Weapon Icon
-            HideHudComponentThisFrame(19) -- Weapon Wheel Stats
             
-            -- Check if player is armed and hide reticle
-            if IsPedArmed(playerPed, 7) then
-                -- Use native to disable reticle efficiently
-                SetPedConfigFlag(playerPed, 78, true) -- Disable reticle flag
-                DisplaySniperScopeThisFrame()
+            -- Disable reticle display
+            local currentPed = PlayerPedId()
+            if IsPedArmed(currentPed, 7) then
+                -- Properly hide the reticle
+                HideHudComponentThisFrame(19) -- Weapon Wheel Stats
             end
             
-            Wait(sleep)
+            Wait(0)
         else
             Wait(500) -- Sleep longer when bypass is active (optimization)
         end
